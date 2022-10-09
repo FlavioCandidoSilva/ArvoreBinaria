@@ -63,6 +63,7 @@ public class ArvoreP {
         return altura(this.raiz);
     }
 
+    //Calculo da altura
     private int altura(No NoAltura) {
         if (NoAltura != null) {
             int e, d;
@@ -77,16 +78,22 @@ public class ArvoreP {
         return 0;
     }
 
-    public void antes(No NoArvore) {  //antes
+    public String antes(No NoArvore) {  //antes
+        String retorno;
+        retorno = "(";
         if (NoArvore != null) {
             System.out.print(NoArvore.numero + ", ");
             antes(NoArvore.noEsquerdo);
             antes(NoArvore.noDireito);
 
         }
+        retorno += ")";
+        return retorno;
     }
 
-    public void depois(No NoArvore) { //pos
+    public String depois(No NoArvore) { //pos
+        String retorno;
+        retorno = "(";
         if (NoArvore != null) {
 
             depois(NoArvore.noEsquerdo);
@@ -94,19 +101,26 @@ public class ArvoreP {
             System.out.print(NoArvore.numero + ", ");
 
         }
+        retorno += ")";
+        return retorno;
 
     }
 
-    public void organizar(No NoArvore) { //endireitar
+    public String organizar(No NoArvore) { //endireitar
+        String retorno;
+        retorno = "(";
         if (NoArvore != null) {
             organizar(NoArvore.noEsquerdo);
             System.out.print(NoArvore.numero + ", ");
             organizar(NoArvore.noDireito);
 
         }
+        retorno += ")";
+        return retorno;
 
     }
 
+    //imprimindo a arvore completa
     public String imprimir(No NoArvore) {   //print
         String retorno;
         retorno = "(";
@@ -114,10 +128,32 @@ public class ArvoreP {
             imprimir(NoArvore.noEsquerdo);
             System.out.print(NoArvore.numero + " ");
             imprimir(NoArvore.noDireito);
-            
+
         }
         retorno += ")";
         return retorno;
     }
 
-}
+    public No remover(No NoArvore, int numero, int key){
+
+        if (NoArvore == null) {
+            System.out.println("Esse No não existe");
+            return null;
+        }
+
+        if(NoArvore.noEsquerdo.numero < key){
+            return remover(NoArvore.noDireito, NoArvore.numero, key);
+        }
+
+        if(NoArvore.noEsquerdo.numero > key){
+            return remover(NoArvore.noEsquerdo, NoArvore.numero, key);
+        }
+
+        return NoArvore;
+    }
+
+
+    }
+
+
+

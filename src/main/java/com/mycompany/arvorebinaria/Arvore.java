@@ -22,17 +22,18 @@ public class Arvore {
         n.insert(5);
         n.insert(4);
         n.insert(15);
-        n.insert(5);
+        n.insert(3);
         n.insert(2);
-        n.insert(4);
-      
-      System.out.println("busca " + n.buscar(no, 5, 5));
-      System.out.println("altura " + n.altura());
-      System.out.println(n.imprimir(n.raiz) + "imprimindo valores"  );
+        n.insert(1);
 
-      
-      
-      
+
+        System.out.println("Nó encontrado... " + n.buscar(no, 5, 5));
+      System.out.println("Calculando a altura... " + n.altura());
+        System.out.println(n.remover(n.raiz, 1, 1) + " removendo"  );
+        System.out.println(n.organizar(n.raiz) + "imprimindo valores ordenado"  );
+      System.out.println(n.antes(n.raiz) + "imprimindo valores pre-ordenado"  );
+      System.out.println(n.depois(n.raiz) + "imprimindo valores pos-ordenado"  );
+      System.out.println(n.imprimir(n.raiz) + "imprimindo valores"  );
 
     }
 }
