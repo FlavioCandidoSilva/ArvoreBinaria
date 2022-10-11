@@ -27,6 +27,10 @@ public class ArvoreP {
     public void destroy(int numero){
         remover(raiz, numero);
     }
+    
+    public void depth(int numero){
+         profundidade(this.raiz);
+    }
 
     public void inserir(No NoArvore, int numero) {  //inserindo
         if (NoArvore == null) {
@@ -137,6 +141,15 @@ public class ArvoreP {
         }
         retorno += ")";
         return retorno;
+    }
+    
+    public int profundidade(No NoAltura){
+        int p;
+        if(NoAltura == this.raiz){
+           return 0;
+        }
+         return 1+ profundidade(NoAltura.pai);
+       
     }
 
     //metodo para descobrir o maior valor e ser auxiliar da função remover
