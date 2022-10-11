@@ -17,10 +17,15 @@ public class ArvoreP {
     public ArvoreP(int numero) {
         this.raiz = new No(numero);
     }
-
     public void insert(int numero) {
         inserir(raiz, numero);
 
+    }
+    public void search(int numero){
+        buscar(raiz, numero);
+    }
+    public void destroy(int numero){
+        remover(raiz, numero);
     }
 
     public void inserir(No NoArvore, int numero) {  //inserindo
@@ -47,16 +52,16 @@ public class ArvoreP {
         }
     }
    
-    public int buscar(No NoArvore, int numero, int key) {
+    public static void buscar(No NoArvore, int numero) {
         if (NoArvore != null) {
             if (NoArvore.numero == numero) {
+                System.out.println("Valor encontrado");
             } else if (numero < NoArvore.numero) {
-               key = buscar(NoArvore.noEsquerdo, numero, key);
+               buscar(NoArvore.noEsquerdo, numero);
             } else {
-               key = buscar(NoArvore.noDireito, numero, key);
+               buscar(NoArvore.noDireito, numero);
             }
         }
-        return key;
     }
     
     public int altura() {  //altura
@@ -134,24 +139,51 @@ public class ArvoreP {
         return retorno;
     }
 
-    public No remover(No NoArvore, int numero, int key){
-
-        if (NoArvore == null) {
-            System.out.println("Esse No não existe");
-            return null;
-        }
-
-        if(NoArvore.noEsquerdo.numero < key){
-            return remover(NoArvore.noDireito, NoArvore.numero, key);
-        }
-
-        if(NoArvore.noEsquerdo.numero > key){
-            return remover(NoArvore.noEsquerdo, NoArvore.numero, key);
+    //metodo para descobrir o maior valor e ser auxiliar da função remover
+    private No maiorValor(No NoArvore) {
+        while (NoArvore.getDireita() != null) {
+            NoArvore = NoArvore.getDireita();
         }
 
         return NoArvore;
     }
 
+    public No remover(No NoArvore, int numero) {
+        // chave não encontrada na árvore
+        if (NoArvore == null) {
+            return NoArvore;
+        }
+
+        // valor menor, procurar na sub-árvore esquerda
+        if (numero < NoArvore.getValor()) {
+            NoArvore.setEsquerda(remover(NoArvore.getEsquerda(), numero));
+        } else if (numero > NoArvore.getValor()) {
+            // valor maior, procurar na sub-árvore direita
+            NoArvore.setDireita(remover(NoArvore.getDireita(), numero));
+        } else { // valor encontrado
+            // caso 1: nó é uma folha (não tem filhos)
+            if (NoArvore.getEsquerda() == null && NoArvore.getDireita() == null) {
+                // remove-o (seta a "raiz" deste nó para null)
+                return null;
+            } else if (NoArvore.getEsquerda() != null && NoArvore.getDireita() != null) {
+                // caso 3: nó tem 2 filhos
+                // encontrar o maior dos filhos que antecede o nó
+                No maiorAntecessor = maiorValor(NoArvore.getEsquerda());
+
+                // copia o valor do antecessor para este nó
+                NoArvore.setValor(maiorAntecessor.getValor());
+
+                // remove o antecessor recursivamente
+                NoArvore.setEsquerda(remover(NoArvore.getEsquerda(), maiorAntecessor.getValor()));
+            } else {
+                // caso 2: nó só tem um filho
+                No child = (NoArvore.getEsquerda() != null) ? NoArvore.getEsquerda() : NoArvore.getDireita();
+                NoArvore = child;
+            }
+        }
+
+        return NoArvore;
+    }
 
     }
 

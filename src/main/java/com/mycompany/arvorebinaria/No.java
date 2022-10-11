@@ -20,10 +20,35 @@ public class No{
     public int numero;
     No noEsquerdo;
     No noDireito;
+
     
     public No (int numero){   //construtor
         this.numero = numero;
 
+    }
+
+    public int getValor() {
+        return numero;
+    }
+
+    public No getEsquerda() {
+        return noEsquerdo;
+    }
+
+    public void setEsquerda(No esquerda) {
+        this.noEsquerdo = esquerda;
+    }
+
+    public No getDireita() {
+        return noDireito;
+    }
+
+    public void setDireita(No direita) {
+        this.noDireito = direita;
+    }
+
+    public void setValor(int numero) {
+        this.numero = numero;
     }
 }
     
