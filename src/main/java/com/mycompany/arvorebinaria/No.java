@@ -20,11 +20,16 @@ public class No{
     public int numero;
     No noEsquerdo;
     No noDireito;
+    No pai;
 
     
     public No (int numero){   //construtor
         this.numero = numero;
 
+    }
+    
+      public No getPai(){
+        return pai;
     }
 
     public int getValor() {
