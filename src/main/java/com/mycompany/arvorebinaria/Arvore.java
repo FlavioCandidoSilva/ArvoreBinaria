@@ -19,20 +19,24 @@ public class Arvore {
     public static void main(String[] args) {
         ArvoreP n = new ArvoreP(30);
         n.insert(5);
-        n.insert(4);
+        n.insert(1);
         n.insert(15);
-        n.insert(3);
+        n.insert(25);
         n.insert(2);
         n.insert(1);
+        n.insert(4);
+        n.insert(8);
+
+        n.verificarBalanceamento(n.raiz);
 
         n.search(5); //Buscando o valor
-        n.destroy(15); // destruindo ("removendo valor");
+        n.destroy(5); // destruindo ("removendo valor");
 
-        System.out.println("Calculando a altura... " + n.altura());
-      System.out.println(n.organizar(n.raiz) + "imprimindo valores ordenado"  );
-      System.out.println(n.antes(n.raiz) + "imprimindo valores pre-ordenado"  );
-      System.out.println(n.depois(n.raiz) + "imprimindo valores pos-ordenado"  );
-      System.out.println(n.imprimir(n.raiz) + "imprimindo valores"  );
+System.out.println("Calculando a altura... " + n.altura());
+  System.out.println(n.organizar(n.raiz) + "imprimindo valores ordenado"  );
+  System.out.println(n.antes(n.raiz) + "imprimindo valores pre-ordenado"  );
+  System.out.println(n.depois(n.raiz) + "imprimindo valores pos-ordenado"  );
+  System.out.println(n.imprimir(n.raiz) + "imprimindo valores"  );
 
     }
 }

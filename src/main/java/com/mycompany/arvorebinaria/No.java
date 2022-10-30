@@ -20,11 +20,12 @@ public class No{
     public int numero;
     No noEsquerdo;
     No noDireito;
+    No pai;
+    public int balanceamento;
 
-    
+
     public No (int numero){   //construtor
         this.numero = numero;
-
     }
 
     public int getValor() {
@@ -34,7 +35,14 @@ public class No{
     public No getEsquerda() {
         return noEsquerdo;
     }
+    public No getPai(){
+        return pai;
+    }
 
+    public No setPai(No pai) {
+        this.pai = pai;
+        return pai;
+    }
     public void setEsquerda(No esquerda) {
         this.noEsquerdo = esquerda;
     }
@@ -49,6 +57,13 @@ public class No{
 
     public void setValor(int numero) {
         this.numero = numero;
+    }
+
+    public int getBalanceamento() {
+        return balanceamento;
+    }
+    public void setBalanceamento(int balanceamento) {
+        this.balanceamento = balanceamento;
     }
 }
     

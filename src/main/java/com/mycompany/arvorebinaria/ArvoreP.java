@@ -18,7 +18,7 @@ public class ArvoreP {
         this.raiz = new No(numero);
     }
     public void insert(int numero) {
-        inserir(raiz, numero);
+        inserir(raiz,numero);
 
     }
     public void search(int numero){
@@ -27,12 +27,15 @@ public class ArvoreP {
     public void destroy(int numero){
         remover(raiz, numero);
     }
-
-    public void inserir(No NoArvore, int numero) {  //inserindo
-        if (NoArvore == null) {
-            System.out.println("Raiz " + numero);
-            raiz = new No(numero);
+    public void depth(int numero){
+        profundidade(this.raiz);
+    }
+    public No inserir(No NoArvore, int numero) {  //inserindo
+        No no = buscar(NoArvore, numero);
+        if (NoArvore.numero == numero) {
+            System.out.println("esse valor existe");
         } else {
+            NoArvore.pai = no;
             if (numero < NoArvore.numero) {
                 if (NoArvore.noEsquerdo != null) {
                     inserir(NoArvore.noEsquerdo, numero);
@@ -40,7 +43,6 @@ public class ArvoreP {
                     System.out.println("Inserindo " + numero + " a esquerda de " + NoArvore.numero);
                     NoArvore.noEsquerdo = new No(numero);
                 }
-
             } else {
                 if (NoArvore.noDireito != null) {
                     inserir(NoArvore.noDireito, numero);
@@ -50,22 +52,32 @@ public class ArvoreP {
                 }
             }
         }
+        return NoArvore;
     }
-   
-    public static void buscar(No NoArvore, int numero) {
+    public No buscar(No NoArvore, int numero) {
         if (NoArvore != null) {
             if (NoArvore.numero == numero) {
                 System.out.println("Valor encontrado");
+                return NoArvore;
             } else if (numero < NoArvore.numero) {
-               buscar(NoArvore.noEsquerdo, numero);
+                buscar(NoArvore.noEsquerdo, numero);
             } else {
-               buscar(NoArvore.noDireito, numero);
+                buscar(NoArvore.noDireito, numero);
             }
         }
+        return NoArvore;
     }
-    
+
     public int altura() {  //altura
         return altura(this.raiz);
+    }
+    public int profundidade(No NoAltura){
+        int p;
+        if(NoAltura == this.raiz){
+            return 0;
+        }
+        return 1+ profundidade(NoAltura.pai);
+
     }
 
     //Calculo da altura
@@ -185,7 +197,104 @@ public class ArvoreP {
         return NoArvore;
     }
 
+    public No verificarBalanceamento(No NoArvore) {
+        setBalanceamento(NoArvore);
+        int balanceamento = NoArvore.getBalanceamento();
+
+        if (balanceamento == -2) {
+
+            if (altura(NoArvore.getEsquerda().getEsquerda()) >= altura(NoArvore.getEsquerda().getDireita())) {
+                NoArvore = rotacaoDireita(NoArvore);
+
+            } else {
+                NoArvore = duplaRotacaoEsquerdaDireita(NoArvore);
+            }
+
+        } else if (balanceamento == 2) {
+
+            if (altura(NoArvore.getDireita().getDireita()) >= altura(NoArvore.getDireita().getEsquerda())) {
+                NoArvore = rotacaoEsquerda(NoArvore);
+
+            } else {
+                NoArvore = duplaRotacaoDireitaEsquerda(NoArvore);
+            }
+        }
+
+        return NoArvore;
     }
+    public No rotacaoEsquerda(No inicial) {
+
+        No direita = inicial.getDireita();
+        direita.setPai(inicial.getPai());
+
+        inicial.setDireita(direita.getEsquerda());
+
+        if (inicial.getDireita() != null) {
+            inicial.getDireita().setPai(inicial);
+        }
+
+        direita.setEsquerda(inicial);
+        inicial.setPai(direita);
+
+        if (direita.getPai() != null) {
+
+            if (direita.getPai().getDireita() == inicial) {
+                direita.getPai().setDireita(direita);
+
+            } else if (direita.getPai().getEsquerda() == inicial) {
+                direita.getPai().setEsquerda(direita);
+            }
+        }
+
+        setBalanceamento(inicial);
+        setBalanceamento(direita);
+
+        return direita;
+    }
+    public No rotacaoDireita(No inicial) {
+
+        No esquerda = inicial.getEsquerda();
+        esquerda.setPai(inicial.getPai());
+
+        inicial.setEsquerda(esquerda.getDireita());
+
+        if (inicial.getEsquerda() != null) {
+            inicial.getEsquerda().setPai(inicial);
+        }
+
+        esquerda.setDireita(inicial);
+        inicial.setPai(esquerda);
+
+        if (esquerda.getPai() != null) {
+
+            if (esquerda.getPai().getDireita() == inicial) {
+                esquerda.getPai().setDireita(esquerda);
+
+            } else if (esquerda.getPai().getEsquerda() == inicial) {
+                esquerda.getPai().setEsquerda(esquerda);
+            }
+        }
+
+        setBalanceamento(inicial);
+        setBalanceamento(esquerda);
+
+        return esquerda;
+    }
+
+    public No duplaRotacaoEsquerdaDireita(No inicial) {
+        inicial.setEsquerda(rotacaoEsquerda(inicial.getEsquerda()));
+        return rotacaoDireita(inicial);
+    }
+    public No duplaRotacaoDireitaEsquerda(No inicial) {
+        inicial.setDireita(rotacaoDireita(inicial.getDireita()));
+        return rotacaoEsquerda(inicial);
+    }
+    private void setBalanceamento(No NoArvore) {
+        NoArvore.setBalanceamento(altura(NoArvore.getDireita()) - altura(NoArvore.getEsquerda()));
+    }
+}
+
+
 
 
 
