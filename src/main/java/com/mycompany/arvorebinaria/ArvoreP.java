@@ -222,6 +222,9 @@ public class ArvoreP {
 
         return NoArvore;
     }
+
+
+    //rotação simples a esquerda
     public No rotacaoEsquerda(No inicial) {
 
         No direita = inicial.getDireita();
@@ -229,12 +232,17 @@ public class ArvoreP {
 
         inicial.setDireita(direita.getEsquerda());
 
+        //verificação para saber se existe No filho a direita
+
         if (inicial.getDireita() != null) {
             inicial.getDireita().setPai(inicial);
         }
+        //senão existe ele vai pegar o primeiro da esquerda
 
         direita.setEsquerda(inicial);
         inicial.setPai(direita);
+
+        //verificação para setar e guardar os filhos do No pai na direita ou esquerda;
 
         if (direita.getPai() != null) {
 
@@ -251,6 +259,9 @@ public class ArvoreP {
 
         return direita;
     }
+
+    //rotação simples a direita
+
     public No rotacaoDireita(No inicial) {
 
         No esquerda = inicial.getEsquerda();
@@ -281,16 +292,23 @@ public class ArvoreP {
         return esquerda;
     }
 
+
+    //rotação dupla a esquerda e a direita
     public No duplaRotacaoEsquerdaDireita(No inicial) {
         inicial.setEsquerda(rotacaoEsquerda(inicial.getEsquerda()));
         return rotacaoDireita(inicial);
     }
+
+    //rotação dupla a direita e dps a esquerda
+
     public No duplaRotacaoDireitaEsquerda(No inicial) {
         inicial.setDireita(rotacaoDireita(inicial.getDireita()));
         return rotacaoEsquerda(inicial);
     }
+
+    //calculo do fator de balancemanto pela de  FB(v)= he(v) - hd(v)
     private void setBalanceamento(No NoArvore) {
-        NoArvore.setBalanceamento(altura(NoArvore.getDireita()) - altura(NoArvore.getEsquerda()));
+        NoArvore.setBalanceamento(altura(NoArvore.getEsquerda()) - altura(NoArvore.getDireita()));
     }
 }
 

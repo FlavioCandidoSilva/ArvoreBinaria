@@ -27,8 +27,8 @@ public class Arvore {
         n.insert(4);
         n.insert(8);
 
+        //Colocando o fato de balanceamento na arvore;
         n.verificarBalanceamento(n.raiz);
-
         n.search(5); //Buscando o valor
         n.destroy(5); // destruindo ("removendo valor");
 
