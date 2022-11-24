@@ -18,6 +18,7 @@ package com.mycompany.arvorebinaria;
  */
 public class No{
     public int numero;
+    int altura;
     No noEsquerdo;
     No noDireito;
     No pai;

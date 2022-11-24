@@ -30,29 +30,17 @@ public class ArvoreP {
     public void depth(int numero){
         profundidade(this.raiz);
     }
-    public No inserir(No NoArvore, int numero) {  //inserindo
-        No no = buscar(NoArvore, numero);
-        if (NoArvore.numero == numero) {
-            System.out.println("esse valor existe");
+    public No inserir(No NoArvore, int numero) {
+        if (NoArvore == null) {
+            return new No(numero);
+        } else if (NoArvore.numero > numero) {
+            NoArvore.noEsquerdo = inserir(NoArvore.noEsquerdo, numero);
+        } else if (NoArvore.numero < numero) {
+            NoArvore.noDireito = inserir(NoArvore.noDireito, numero);
         } else {
-            NoArvore.pai = no;
-            if (numero < NoArvore.numero) {
-                if (NoArvore.noEsquerdo != null) {
-                    inserir(NoArvore.noEsquerdo, numero);
-                } else {
-                    System.out.println("Inserindo " + numero + " a esquerda de " + NoArvore.numero);
-                    NoArvore.noEsquerdo = new No(numero);
-                }
-            } else {
-                if (NoArvore.noDireito != null) {
-                    inserir(NoArvore.noDireito, numero);
-                } else {
-                    System.out.println("Inserindo " + numero + " a direita de " + NoArvore.numero);
-                    NoArvore.noDireito = new No(numero);
-                }
-            }
+            throw new RuntimeException("Chave duplicada || número duplicado");
         }
-        return NoArvore;
+        return rebalance(NoArvore);
     }
     public No buscar(No NoArvore, int numero) {
         if (NoArvore != null) {
@@ -150,7 +138,6 @@ public class ArvoreP {
         retorno += ")";
         return retorno;
     }
-
     //metodo para descobrir o maior valor e ser auxiliar da função remover
     private No maiorValor(No NoArvore) {
         while (NoArvore.getDireita() != null) {
@@ -159,7 +146,6 @@ public class ArvoreP {
 
         return NoArvore;
     }
-
     public No remover(No NoArvore, int numero) {
         // chave não encontrada na árvore
         if (NoArvore == null) {
@@ -196,31 +182,26 @@ public class ArvoreP {
 
         return NoArvore;
     }
-
-    public No verificarBalanceamento(No NoArvore) {
-        setBalanceamento(NoArvore);
-        int balanceamento = NoArvore.getBalanceamento();
-
-        if (balanceamento == -2) {
-
-            if (altura(NoArvore.getEsquerda().getEsquerda()) >= altura(NoArvore.getEsquerda().getDireita())) {
-                NoArvore = rotacaoDireita(NoArvore);
-
-            } else {
-                NoArvore = duplaRotacaoEsquerdaDireita(NoArvore);
+    public void atualizarAltura(No NoArvore) {
+        NoArvore.altura = 1 + Math.max(altura(NoArvore.noEsquerdo), altura(NoArvore.noDireito));
+    }
+    public No rebalance(No z) {
+        atualizarAltura(z);
+        int balance = setBalanceamento(z);
+        if (balance == -2) {
+            if (altura(z.noDireito.noDireito) > altura(z.noDireito.noEsquerdo)) {
+                z = rotacaoEsquerda(z);
+            }  else {
+                z = duplaRotacaoEsquerdaDireita(z);
             }
-
-        } else if (balanceamento == 2) {
-
-            if (altura(NoArvore.getDireita().getDireita()) >= altura(NoArvore.getDireita().getEsquerda())) {
-                NoArvore = rotacaoEsquerda(NoArvore);
-
-            } else {
-                NoArvore = duplaRotacaoDireitaEsquerda(NoArvore);
+        } else if (balance  == -2) {
+            if (altura(z.noEsquerdo.noEsquerdo) > altura(z.noEsquerdo.noDireito))
+                z = rotacaoDireita(z);
+            else {
+                z = duplaRotacaoDireitaEsquerda(z);
             }
         }
-
-        return NoArvore;
+        return z;
     }
     public No rotacaoEsquerda(No inicial) {
 
@@ -289,8 +270,9 @@ public class ArvoreP {
         inicial.setDireita(rotacaoDireita(inicial.getDireita()));
         return rotacaoEsquerda(inicial);
     }
-    private void setBalanceamento(No NoArvore) {
+    public int setBalanceamento(No NoArvore) {
         NoArvore.setBalanceamento(altura(NoArvore.getDireita()) - altura(NoArvore.getEsquerda()));
+        return 0;
     }
 }
 
